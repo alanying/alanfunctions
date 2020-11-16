@@ -6,10 +6,28 @@
 from os.path import split
 import pandas as pd
 import datetime
+import numpy as np
+from gensim.models import Word2Vec
 
 pd.set_option('display.width', 200)
 
+# embed a sentence to a numpy array
+def embed_sentence(word2vec, sentence):
+    embedded_sentence = []
+    for word in sentence:
+        if word in word2vec.wv:
+            embedded_sentence.append(word2vec.wv[word])
+    return np.array(embedded_sentence)
 
+#actual embedding
+def embedding(word2vec, sentences):
+    embed = []
+    for sentence in sentences:
+        embedded_sentence = embed_sentence(word2vec, sentence)
+        embed.append(embedded_sentence)
+    return embed
+
+# something to work on ipython
 def clean_data(data):
     """ clean data
     """
